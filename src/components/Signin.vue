@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      msg: 'login Vue'
+      msg: 'SignIn Vue'
     }
   }
 }

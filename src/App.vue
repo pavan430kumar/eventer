@@ -1,28 +1,12 @@
 <template>
   <v-app dark standalone>
     <v-navigation-drawer temporary v-model="sideNav">
-      <v-list @click.native="goToCreate">
-        <v-list-tile>
+      <v-list>
+        <v-list-tile v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-list-tile-action>
-            <v-icon left>add</v-icon>
+            <v-icon left>{{item.icon}}</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>CREATE</v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-list @click.native="goToEvents">
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon left>list</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>EVENTS</v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-list @click.native="goToProfile">
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon left>person</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>PROFILE</v-list-tile-content>
+          <v-list-tile-content>{{item.title}}</v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -35,17 +19,9 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat @click.native="goToCreate">
-          <v-icon left>add</v-icon>
-          Create
-        </v-btn>
-        <v-btn flat @click.native="goToEvents">
-          <v-icon left>list</v-icon>
-          Events
-        </v-btn>
-        <v-btn flat @click.native="goToProfile">
-          <v-icon left>person</v-icon>
-          Profile
+        <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
+          <v-icon left>{{item.icon}}</v-icon>
+          {{item.title}}
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -64,19 +40,17 @@
 export default {
   data () {
     return {
-      sideNav: null
+      sideNav: false,
+      menuItems: [
+        {icon: 'add', title: 'Create Event', link: '/create'},
+        {icon: 'list', title: 'All Events', link: '/events'},
+        {icon: 'person', title: 'Profile', link: '/profile'},
+        {icon: 'face', title: 'Sign Up', link: '/signup'},
+        {icon: 'lock_open', title: 'Sign In', link: '/signin'}
+      ]
     }
   },
   methods: {
-    goToProfile () {
-      this.$router.push('/profile')
-    },
-    goToCreate () {
-      this.$router.push('/create')
-    },
-    goToEvents () {
-      this.$router.push('/events')
-    },
     goToHome () {
       this.$router.push('/')
     }
