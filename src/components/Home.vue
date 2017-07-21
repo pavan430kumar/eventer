@@ -1,12 +1,17 @@
 <template>
-    <v-carousel>
-    <v-carousel-item 
-    v-for="(item,i) in items" v-bind:src="item.src" :key="i">
-    </v-carousel-item>
-    </v-carousel>
+  <v-container>
+    <v-layout row wrap>
+      <v-flex xs12 class="pa-2">
+        <v-carousel>
+          <v-carousel-item v-for="(item,i) in items" v-bind:src="item.src" :key="i">
+          </v-carousel-item>
+        </v-carousel>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
-<<script>
+<script>
 export default {
   data () {
     return {
@@ -19,4 +24,3 @@ export default {
   }
 }
 </script>
-
