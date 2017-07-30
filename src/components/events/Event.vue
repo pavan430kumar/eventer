@@ -28,9 +28,7 @@ export default {
   props: ['id'],
   computed: {
       selectedEvent(){
-          var test = this.$store.getters.loadSelectedEvent(this.id)
-          console.log(test)
-          return test
+          return this.$store.getters.loadSelectedEvent(this.id)
       }
   }
 }
