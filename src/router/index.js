@@ -6,6 +6,7 @@ import Home from '@/components/Home'
 import Create from '@/components/events/CreateEvent'
 import Events from '@/components/events/AllEvents'
 import Profile from '@/components/user/Profile'
+import Event from '@/components/events/Event'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
     {
       path: '/events',
       component: Events
+    },
+    {
+      path: '/events/:id',
+      props: true,
+      component: Event
     },
     {
       path: '/profile',

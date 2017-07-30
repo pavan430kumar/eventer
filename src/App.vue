@@ -2,7 +2,7 @@
   <v-app dark standalone>
     <v-navigation-drawer temporary v-model="sideNav">
       <v-list>
-        <v-list-tile v-for="item in menuItems" :key="item.title" router :to="item.link">
+        <v-list-tile v-for="item in menuItems" :key="item.title" :to="item.link">
           <v-list-tile-action>
             <v-icon left>{{item.icon}}</v-icon>
           </v-list-tile-action>
@@ -12,14 +12,14 @@
     </v-navigation-drawer>
   
     <v-toolbar>
-      <v-toolbar-side-icon @click.native.stop="sideNav =! sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="sideNav =! sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
       <v-toolbar-title style="cursor: pointer" @click="goToHome">
         <v-icon>event</v-icon>
         Eventer
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
+        <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.link">
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
@@ -29,7 +29,7 @@
     <main>
       <router-view></router-view>
     </main>
-    <v-footer :absolute="true" class="pa-3">
+    <v-footer class="pa-3">
       <v-spacer></v-spacer>
       <div>Ception Inc. © {{ new Date().getFullYear() }}</div>
     </v-footer>
@@ -42,8 +42,8 @@ export default {
     return {
       sideNav: false,
       menuItems: [
-        {icon: 'add', title: 'Create Event', link: '/create'},
         {icon: 'list', title: 'All Events', link: '/events'},
+        {icon: 'add', title: 'Create Event', link: '/create'},
         {icon: 'person', title: 'Profile', link: '/profile'},
         {icon: 'face', title: 'Sign Up', link: '/signup'},
         {icon: 'lock_open', title: 'Sign In', link: '/signin'}
