@@ -1,5 +1,6 @@
 <<template>
-  <v-container>
+ <v-slide-x-transition> 
+  <v-container> 
       <v-layout row wrap>
         <v-flex xs12 md10 lg8 offset-md1 offset-lg2>
             <v-card>
@@ -21,16 +22,17 @@
         </v-flex>
       </v-layout>
   </v-container>
+   </v-slide-x-transition> 
 </template>
 
 <script>
 export default {
-  props: ['id'],
-  computed: {
-      selectedEvent(){
-          return this.$store.getters.loadSelectedEvent(this.id)
-      }
-  }
+    props: ['id'],
+    computed: {
+        selectedEvent() {
+            return this.$store.getters.loadSelectedEvent(this.id)
+        }
+    }
 }
 </script>
 

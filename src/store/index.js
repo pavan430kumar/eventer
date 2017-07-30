@@ -36,18 +36,17 @@ export const store = new Vuex.Store({
                 return eventA.date > eventB.date
             })
         },
-        featuredEvents(state) {
+        loadFeaturedEvents(state) {
             return state._loadEvents.slice(0, 2)
         },
         loadSelectedEvent(state) {
             return (eventId) => {
                 return state._loadEvents.find((myEvent) => {
-                    console.log(myEvent, eventId);
                     return myEvent.id == eventId
                 })
             };
         },
-        user(state) {
+        getUser(state) {
             return state._user
         }
     },

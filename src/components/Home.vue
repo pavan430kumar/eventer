@@ -21,7 +21,7 @@
 export default {
   computed: {
     myEvents(){
-      return this.$store.getters.featuredEvents
+      return this.$store.getters.loadFeaturedEvents
     }
   },
   methods: {
