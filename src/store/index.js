@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
             {
                 src: 'https://media.timeout.com/images/103444978/image.jpg',
                 id: 1,
+                location: 'test1',
                 title: 'New York',
                 date: '2017-07-19'
             },
@@ -16,12 +17,14 @@ export const store = new Vuex.Store({
                 src: 'http://www.touristsbook.com/boston/files/2015/02/Boston-Downtown-Skyline-Buidlings.jpg',
                 id: 2,
                 title: 'Boston',
+                location: 'test1',
                 date: '2017-07-29'
             },
             {
                 src: 'http://image.myvr.com/36072b4208f38136/f8d8a898d349dbd2/102-1downtown-los-angeles.jpg',
                 id: 3,
                 title: 'New Jersey',
+                location: 'test1',
                 date: '2017-06-05'
             }
         ],
@@ -33,7 +36,7 @@ export const store = new Vuex.Store({
     getters: {
         loadEvents(state) {
             return state._loadEvents.sort((eventA, eventB) => {
-                return eventA.date > eventB.date
+                return eventA.date < eventB.date
             })
         },
         loadFeaturedEvents(state) {
@@ -50,6 +53,22 @@ export const store = new Vuex.Store({
             return state._user
         }
     },
-    mutations: {},
-    actions: {}
+    mutations: {
+        createEvent(state, payload) {
+            state._loadEvents.push(payload)
+        }
+    },
+    actions: {
+        createEvent({ commit }, payload) {
+            const event = {
+                title: payload.title,
+                location: payload.location,
+                src: payload.imageUrl,
+                date: payload.description,
+                id: 10
+            }
+            //Reach out to firebase and store
+            commit('createEvent', event)
+        }
+    }
 })
