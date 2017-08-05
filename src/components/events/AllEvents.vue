@@ -2,7 +2,7 @@
   <v-slide-x-transition>
     <v-container>
       <v-layout row wrap v-for="event in allEvents" :key="event.id" class="mb-2">
-        <v-flex xs12 lg10 offset-lg1 class="mt-3">
+        <v-flex xs12 lg8 offset-lg2 class="mt-3">
           <v-card>
             <v-container fluid>
               <v-layout row>

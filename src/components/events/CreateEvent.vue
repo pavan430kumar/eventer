@@ -2,12 +2,13 @@
   <v-slide-x-transition>
     <v-container class="mt-3">
       <v-layout row>
-        <v-flex xs12 lg10 offset-lg1>
+        <v-flex xs12 lg8 offset-lg2>
           <v-card>
             <v-card-text>
               <v-layout row>
                 <v-flex xs12 sm6 lg6 offset-sm3>
-                  <h4 class="white--text">Create New Event</h4>
+                  <div class="white--text display-1"><b>Create Event</b></div>
+                  <br>
                 </v-flex>
               </v-layout>
               <v-layout row>
@@ -30,7 +31,7 @@
                           <v-date-picker v-model="date" dark actions>
                             <template scope="{ save, cancel }">
                               <v-card-actions>
-                                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                                <v-btn flat primary @click="cancel()">Cancel</v-btn>
                                 <v-btn flat primary @click.native="save()">Save</v-btn>
                               </v-card-actions>
                             </template>
@@ -38,27 +39,44 @@
                         </v-menu>
                       </v-flex>
                     </v-layout>
-                    <v-layout row>
+                    <v-layout row wrap>
                       <v-flex xs12 sm6 offset-sm3>
-                        <v-menu lazy :close-on-content-click="false" v-model="menuTime" transition="scale-transition" full-width offset-y :nudge-left="40" max-width="290px">
-                          <v-text-field slot="activator" label="Pick Event Time" v-model="time" prepend-icon="access_time" readonly required></v-text-field>
-                          <v-time-picker v-model="time" dark actions>
-                            <template scope="{ save, cancel }">
-                              <v-card-actions>
-                                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                                <v-btn flat primary @click.native="save()">Save</v-btn>
-                              </v-card-actions>
-                            </template>
-                          </v-time-picker>
-                        </v-menu>
+                          <v-layout>
+                            <v-flex xs6>
+                              <v-menu lazy :close-on-content-click="false" v-model="menuStartTime" transition="scale-transition" full-width offset-y :nudge-left="40" max-width="290px">
+                                <v-text-field slot="activator" label="Start Time" v-model="startTime" prepend-icon="access_time" readonly required></v-text-field>
+                                <v-time-picker v-model="startTime" dark actions>
+                                  <template scope="{ save, cancel }">
+                                    <v-card-actions>
+                                      <v-btn flat primary @click="cancel()">Cancel</v-btn>
+                                      <v-btn flat primary @click="save()">Save</v-btn>
+                                    </v-card-actions>
+                                  </template>
+                                </v-time-picker>
+                              </v-menu>
+                            </v-flex>
+                            <v-flex xs6>
+                              <v-menu lazy :close-on-content-click="false" v-model="menuEndTime" transition="scale-transition" full-width offset-y :nudge-left="40" max-width="290px">
+                                <v-text-field slot="activator" label="End Time" v-model="endTime" prepend-icon="access_time" readonly required></v-text-field>
+                                <v-time-picker v-model="endTime" dark actions>
+                                  <template scope="{ save, cancel }">
+                                    <v-card-actions>
+                                      <v-btn flat primary @click="cancel()">Cancel</v-btn>
+                                      <v-btn flat primary @click="save()">Save</v-btn>
+                                    </v-card-actions>
+                                  </template>
+                                </v-time-picker>
+                              </v-menu>
+                            </v-flex>
+                          </v-layout>
                       </v-flex>
                     </v-layout>
                     <v-layout row>
                       <v-flex xs12 sm6 offset-sm3>
                         <v-text-field name="imageUrl" label="ImageUrl" id="imageUrl" v-model="imageUrl" prepend-icon="image" required></v-text-field>
                         <!-- <div>
-                        <img :src="imageUrl" height="200" width="270">
-                      </div> -->
+                              <img :src="imageUrl" height="200" width="270">
+                            </div> -->
                       </v-flex>
                     </v-layout>
                     <v-layout row>
@@ -70,7 +88,7 @@
                     </v-layout>
                     <v-layout row>
                       <v-flex xs12 sm6 offset-sm3>
-                        <v-text-field name="description" label="Description" id="description" v-model="description" multi-line prepend-icon="comment" required></v-text-field>
+                        <v-text-field name="description" label="Description" id="description" v-model="description" multi-line prepend-icon="comment" required counter max="150"></v-text-field>
                       </v-flex>
                     </v-layout>
                     <v-layout row>
@@ -98,9 +116,11 @@ export default {
       imageUrl: '',
       description: '',
       date: null,
-      time: null,
+      startTime: null,
+      endTime: null,
       menuDate: false,
-      menuTime: false
+      menuStartTime: false,
+      menuEndTime: false
     }
   },
   computed: {
@@ -110,7 +130,8 @@ export default {
         this.imageUrl !== '' &&
         this.description !== '' &&
         this.date != null &&
-        this.time != null
+        this.startTime != null &&
+        this.endTime != null
     }
   },
   methods: {

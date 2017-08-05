@@ -5,7 +5,7 @@
         <v-flex xs12 md10 lg8 offset-md1 offset-lg2>
             <v-card>
                 <v-card-title>
-                    <h4 class="white--text">{{ selectedEvent.title }}</h4>
+                    <h4 class="white--text"><b>{{ selectedEvent.title }}</b></h4>
                 </v-card-title>
                 <v-card-media :src="selectedEvent.src" height="400px"></v-card-media>
                 <v-card-text>
