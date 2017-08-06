@@ -4,6 +4,7 @@
       <v-layout row>
         <v-flex xs12 lg8 offset-lg2>
           <v-card>
+            <v-btn to='/editprofile'>Edit Profile</v-btn>
             <v-card-media :src="profileImage" height="300px">
               <v-layout column class="media">
                 <v-spacer></v-spacer>

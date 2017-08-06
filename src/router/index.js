@@ -7,6 +7,7 @@ import Create from '@/components/events/CreateEvent'
 import Events from '@/components/events/AllEvents'
 import Profile from '@/components/user/Profile'
 import Event from '@/components/events/Event'
+import EditProfile from '@/components/user/EditProfile'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -67,6 +68,13 @@ let router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/editprofile',
+      component: EditProfile,
+      meta: {
+        requiresAuth: true
+      }
     }
   ],
   mode: 'history'
@@ -76,8 +84,8 @@ router.beforeEach((to, from, next) => {
 
   let currentUser = firebase.auth().currentUser;
   let requiresAuth = to.matched.some(request => request.meta.requiresAuth);
-  
-  if(requiresAuth && !currentUser) next('/signin')
+
+  if (requiresAuth && !currentUser) next('/signin')
   else if (!requiresAuth && currentUser) next('/home')
   else next()
 })
