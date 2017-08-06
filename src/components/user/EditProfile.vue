@@ -1,8 +1,8 @@
   <template>
-    <v-slide-x-transition>
+    <!-- <v-slide-x-transition> -->
         <v-container>
             <v-layout row>
-                <v-flex xs12>
+                <v-flex xs12 lg8 offset-lg2>
                   <div class="white--text display-1">Edit Profile</div>
                 </v-flex>
               </v-layout>
@@ -92,7 +92,7 @@
                 </v-flex>
             </v-layout>
         </v-container>
-    </v-slide-x-transition>
+    <!-- </v-slide-x-transition> -->
 </template>
 
 <<script>
