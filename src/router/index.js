@@ -7,14 +7,22 @@ import Create from '@/components/events/CreateEvent'
 import Events from '@/components/events/AllEvents'
 import Profile from '@/components/user/Profile'
 import Event from '@/components/events/Event'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
+      path: '*',
+      redirect: '/signup'
+    },
+    {
       path: '/',
-      component: Home
+      redirect: '/home',
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/signin',
@@ -25,22 +33,53 @@ export default new Router({
       component: SignUp
     },
     {
+      path: '/home',
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/create',
-      component: Create
+      component: Create,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/events',
-      component: Events
+      component: Events,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/events/:id',
       props: true,
-      component: Event
+      component: Event,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/profile',
-      component: Profile
+      component: Profile,
+      meta: {
+        requiresAuth: true
+      }
     }
   ],
   mode: 'history'
 })
+
+router.beforeEach((to, from, next) => {
+
+  let currentUser = firebase.auth().currentUser;
+  let requiresAuth = to.matched.some(request => request.meta.requiresAuth);
+  
+  if(requiresAuth && !currentUser) next('/signin')
+  else if (!requiresAuth && currentUser) next('/home')
+  else next()
+})
+
+export default router

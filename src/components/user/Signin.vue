@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   data() {
     return {
@@ -67,7 +68,16 @@ export default {
   },
   methods: {
     onLogin() {
-      return null
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        user=>{
+          this.$router.push('/')
+        }
+      ).catch(
+        err => {
+          var errorCode = err.code;
+          var errorMessage = err.message;
+          console.log(errorCode, errorMessage)
+      })
     }
   }
 }

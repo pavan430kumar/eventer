@@ -27,7 +27,7 @@
                     </v-layout>
                     <v-layout row>
                       <v-flex>
-                        <v-text-field name="confirmPassword" type="confirmPassword" label="Confirm Password" id="confirmPassword" v-model="confirmPassword" required></v-text-field>
+                        <v-text-field name="confirmPassword" type="confirmPassword" label="Confirm Password" id="confirmPassword" v-model="confirmPassword"></v-text-field>
                       </v-flex>
                     </v-layout>
                     <v-layout row>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   data() {
     return {
@@ -68,13 +69,23 @@ export default {
   computed: {
     sighUpFormIsValid() {
       return this.email != '' &&
-        this.password != '' &&
-        this.confirmPassword != ''
+        this.password != ''
     }
   },
   methods: {
     onSignUp() {
-      return null
+      console.log(this.email)
+      console.log(this.password)
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+        (user)=> {
+          console.log(user)
+        }
+      ).catch(
+        (err) => {
+          var errorCode = err.code;
+          var errorMessage = err.message;
+          console.log(errorCode, errorMessage)
+        })
     }
   }
 }

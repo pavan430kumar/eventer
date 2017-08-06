@@ -7,7 +7,7 @@
             <v-card-text>
               <v-layout row>
                 <v-flex xs12 sm6 lg6 offset-sm3>
-                  <div class="white--text display-1"><b>Create Event</b></div>
+                  <div class="white--text display-1">Create New Event</div>
                   <br>
                 </v-flex>
               </v-layout>
