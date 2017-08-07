@@ -7,7 +7,7 @@
             <v-container fluid>
               <v-layout row>
                 <v-flex xs5 md4 lg4>
-                  <v-card-media :src="event.src" height="150px"></v-card-media>
+                  <v-card-media :src="event.imageUrl" height="150px"></v-card-media>
                 </v-flex>
                 <v-flex xs7 md8 lg8>
                   <v-card-title primary-title>

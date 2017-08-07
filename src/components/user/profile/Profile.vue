@@ -4,23 +4,23 @@
       <v-layout row>
         <v-flex xs12 lg8 offset-lg2>
           <v-card>
-            <v-btn to='/editprofile'>Edit Profile</v-btn>
-            <v-card-media :src="profileImage" height="300px">
+            <v-btn to='/profile/update'>Update Profile</v-btn>
+            <v-card-media :src="userProfile.profilePic" height="300px">
               <v-layout column class="media">
                 <v-spacer></v-spacer>
                 <v-card-title class="white--text pl-5 pt-5">
-                  <div class="display-1">Pavan Kumar</div>
+                  <div class="display-1">{{userProfile.firstName}} {{userProfile.lastName}}</div>
                 </v-card-title>
               </v-layout>
             </v-card-media>
           </v-card>
           <v-list two-line>
-            <v-list-tile v-show="dob !==''">
+            <v-list-tile v-show="userProfile.dob !==''">
               <v-list-tile-action>
                 <v-icon class="primary--text">calendar_today</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>{{dob}}</v-list-tile-title>
+                <v-list-tile-title>{{userProfile.dob}}</v-list-tile-title>
                 <v-list-tile-sub-title>Date Of Birth</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -30,15 +30,15 @@
                 <v-icon class="primary--text">phone</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>{{primaryPh}}</v-list-tile-title>
-                <v-list-tile-sub-title>Primary Contact Number</v-list-tile-sub-title>
+                <v-list-tile-title>{{userProfile.phone}}</v-list-tile-title>
+                <v-list-tile-sub-title>Mobile</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-show="secPh !== ''">
+            <v-list-tile v-show="userProfile.workPhone !== ''">
               <v-list-tile-action></v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>{{secPh}}</v-list-tile-title>
-                <v-list-tile-sub-title>Secoundry Contact Number</v-list-tile-sub-title>
+                <v-list-tile-title>{{userProfile.workPhone}}</v-list-tile-title>
+                <v-list-tile-sub-title>Work</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-divider inset></v-divider>
@@ -47,8 +47,14 @@
                 <v-icon class="primary--text">mail</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>{{emailId}}</v-list-tile-title>
-                <v-list-tile-sub-title>Email Address</v-list-tile-sub-title>
+                <v-list-tile-title>{{userProfile.email}}</v-list-tile-title>
+                <v-list-tile-sub-title>Personal Email</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile v-show="userProfile.workEmail !== ''">
+              <v-list-tile-content>
+                <v-list-tile-title>{{userProfile.workEmail}}</v-list-tile-title>
+                <v-list-tile-sub-title>Work Email</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-divider inset></v-divider>
@@ -57,8 +63,8 @@
                 <v-icon class="primary--text">location_on</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>{{Street}}</v-list-tile-title>
-                <v-list-tile-sub-title>{{City}}, {{State}} {{Zipcode}}</v-list-tile-sub-title>
+                <v-list-tile-title>{{userProfile.street}} {{userProfile.apt}}</v-list-tile-title>
+                <v-list-tile-sub-title>{{userProfile.city}}, {{userProfile.state}} {{userProfile.zipcode}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -70,17 +76,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      profileImage: 'https://s-media-cache-ak0.pinimg.com/originals/5e/f4/79/5ef47920fc689db66b4c69be072771b6.jpg',
-      primaryPh: '(650) 555-1234',
-      secPh: '',
-      emailId: 'eventeradmin@example.com',
-      Street: '1400 Main Street',
-      City: 'Orlando',
-      State: 'FL',
-      Zipcode: '79938',
-      dob: 'Jun 5th, 1992'
+  computed: {
+    userProfile() {
+      return this.$store.getters.getUser(1234)
     }
   }
 }

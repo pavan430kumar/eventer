@@ -7,7 +7,7 @@
                 <v-card-title>
                     <h4 class="white--text"><b>{{ selectedEvent.title }}</b></h4>
                 </v-card-title>
-                <v-card-media :src="selectedEvent.src" height="400px"></v-card-media>
+                <v-card-media :src="selectedEvent.imageUrl" height="400px"></v-card-media>
                 <v-card-text>
                     <div>
                         <h6 class="white--text">{{selectedEvent.date}}</h6>

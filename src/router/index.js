@@ -5,9 +5,9 @@ import SignUp from '@/components/user/Signup'
 import Home from '@/components/Home'
 import Create from '@/components/events/CreateEvent'
 import Events from '@/components/events/AllEvents'
-import Profile from '@/components/user/Profile'
+import Profile from '@/components/user/profile/Profile'
 import Event from '@/components/events/Event'
-import EditProfile from '@/components/user/EditProfile'
+import UpdateProfile from '@/components/user/profile/UpdateProfile'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -70,8 +70,8 @@ let router = new Router({
       }
     },
     {
-      path: '/editprofile',
-      component: EditProfile,
+      path: '/profile/update',
+      component: UpdateProfile,
       meta: {
         requiresAuth: true
       }

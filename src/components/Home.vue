@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex xs12 lg8 offset-lg2 class="mt-2">
           <v-carousel style="cursor: pointer">
-            <v-carousel-item v-for="event in myEvents" :src="event.src" :key="event.id" transition="fade-transition" reverseTransition="fade-transition" @click="goToSelectedEvent(event.id)">
+            <v-carousel-item v-for="event in myEvents" :src="event.imageUrl" :key="event.id" transition="fade-transition" reverseTransition="fade-transition" @click="goToSelectedEvent(event.id)">
               <div class="title">{{event.title}}</div>
             </v-carousel-item>
           </v-carousel>
