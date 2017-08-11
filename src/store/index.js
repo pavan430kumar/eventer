@@ -2,10 +2,18 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
 import Router from '../router'
+import createPersistedState from 'vuex-persistedstate'
+import * as Cookies from 'js-cookie'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
+    plugins: [
+        createPersistedState({
+            getState: (key) => Cookies.getJSON(key),
+            setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: false })
+        })
+    ],
     state: {
         _loadEvents: [
             {

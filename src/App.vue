@@ -23,8 +23,7 @@
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
-         <v-btn flat @click="signOut"> 
-        <!-- <v-btn flat @click="signOut" v-show="isUserLoggedIn"> -->
+         <v-btn flat @click="signOut" v-show="isUserLoggedIn"> 
           <v-icon left>lock_outline</v-icon>
           Sign Out
         </v-btn>
