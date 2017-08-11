@@ -70,22 +70,21 @@ export default {
     sighUpFormIsValid() {
       return this.email != '' &&
         this.password != ''
+    },
+    isUserAuthenticated() {
+      var user = this.$store.getters.getFirebaseUser
+      return user
+    }
+  },
+  watch: {
+    isUserAuthenticated(value) {
+      if (value != null)
+        this.$router.push('/')
     }
   },
   methods: {
     onSignUp() {
-      console.log(this.email)
-      console.log(this.password)
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        (user)=> {
-          console.log(user)
-        }
-      ).catch(
-        (err) => {
-          var errorCode = err.code;
-          var errorMessage = err.message;
-          console.log(errorCode, errorMessage)
-        })
+      this.$store.dispatch('signUpUser', { email: this.email, password: this.password })
     }
   }
 }

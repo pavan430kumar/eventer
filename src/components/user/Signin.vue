@@ -64,20 +64,20 @@ export default {
     loginFormIsValid() {
       return this.email != '' &&
         this.password != ''
+    },
+    isUserAuthenticated(){
+      return this.$store.getters.getFirebaseUser
+    }
+  },
+  watch: {
+    isUserAuthenticated(value){
+      if(value != null)
+      this.$router.push('/')
     }
   },
   methods: {
     onLogin() {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        user=>{
-          this.$router.push('/')
-        }
-      ).catch(
-        err => {
-          var errorCode = err.code;
-          var errorMessage = err.message;
-          console.log(errorCode, errorMessage)
-      })
+      this.$store.dispatch('signInUser',{email: this.email, password: this.password})
     }
   }
 }

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as firebase from 'firebase'
+import Router from '../router'
 
 Vue.use(Vuex)
 
@@ -70,7 +72,8 @@ export const store = new Vuex.Store({
                 zipcode: '500025',
                 profilePic: ''
             }
-        ]
+        ],
+        _fireUser: null
     },
     getters: {
         loadEvents(state) {
@@ -94,6 +97,9 @@ export const store = new Vuex.Store({
                     return user.userId == userId
                 })
             };
+        },
+        getFirebaseUser(state) {
+            return state._fireUser
         }
     },
     mutations: {
@@ -107,18 +113,21 @@ export const store = new Vuex.Store({
             })
 
             user.firstName = payload.firstName,
-            user.lastName = payload.lastName,
-            user.dob = payload.dob,
-            user.email = payload.email,
-            user.workEmail = payload.workEmail,
-            user.phone = payload.phone,
-            user.workPhone = payload.workPhone,
-            user.apt = payload.apt,
-            user.street = payload.street,
-            user.city = payload.city,
-            user.state = payload.state,
-            user.zipcode = payload.zipcode,
-            user.profilePic = payload.profilePic
+                user.lastName = payload.lastName,
+                user.dob = payload.dob,
+                user.email = payload.email,
+                user.workEmail = payload.workEmail,
+                user.phone = payload.phone,
+                user.workPhone = payload.workPhone,
+                user.apt = payload.apt,
+                user.street = payload.street,
+                user.city = payload.city,
+                user.state = payload.state,
+                user.zipcode = payload.zipcode,
+                user.profilePic = payload.profilePic
+        },
+        setUser(state, payload) {
+            state._fireUser = payload
         }
     },
     actions: {
@@ -152,6 +161,44 @@ export const store = new Vuex.Store({
             }
             //Reach out to firebase and store
             commit('updateProfile', updatedProfile)
+        },
+        signUpUser({ commit }, payload) {
+            firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+                .then(
+                user => {
+                    const newUser = {
+                        userId: user.uid
+                    }
+                    commit('setUser', newUser)
+                }
+                )
+                .catch(
+                err => {
+                    console.log(err, err.message)
+                }
+                )
+        },
+        signInUser({ commit }, payload) {
+            firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+                .then(
+                user => {
+                    const newUser = {
+                        userId: user.uid
+                    }
+                    commit('setUser', newUser)
+                })
+                .catch(
+                err => {
+                    console.log(err, err.message)
+                })
+        },
+        signOutUser({ commit }) {
+            firebase.auth().signOut().then(
+                (x) => {
+                    Router.push('/signin')
+                    commit('setUser', x)
+                }
+            )
         }
     }
 })
