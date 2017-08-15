@@ -11,7 +11,7 @@ export const store = new Vuex.Store({
     plugins: [
         createPersistedState({
             getState: (key) => Cookies.getJSON(key),
-            setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: false })
+            setState: (key, state) => Cookies.set(key, state, { expires: 1, secure: false })
         })
     ],
     state: {
@@ -81,7 +81,9 @@ export const store = new Vuex.Store({
                 profilePic: ''
             }
         ],
-        _fireUser: null
+        _fireUser: null,
+        _isLoading: false,
+        _error: null
     },
     getters: {
         loadEvents(state) {
@@ -108,6 +110,12 @@ export const store = new Vuex.Store({
         },
         getFirebaseUser(state) {
             return state._fireUser
+        },
+        getIsLoading(state){
+            return state._isLoading
+        },
+        getError(state){
+            return state._error
         }
     },
     mutations: {
@@ -119,23 +127,33 @@ export const store = new Vuex.Store({
             var user = state._user.find(user => {
                 return user.userId == payload.userId
             })
-
-            user.firstName = payload.firstName,
-                user.lastName = payload.lastName,
-                user.dob = payload.dob,
-                user.email = payload.email,
-                user.workEmail = payload.workEmail,
-                user.phone = payload.phone,
-                user.workPhone = payload.workPhone,
-                user.apt = payload.apt,
-                user.street = payload.street,
-                user.city = payload.city,
-                user.state = payload.state,
-                user.zipcode = payload.zipcode,
-                user.profilePic = payload.profilePic
+            user = payload
+            console.log(state._user.find(user => { return user.userId == payload.userId}))
+            // user.firstName = payload.firstName,
+            //     user.lastName = payload.lastName,
+            //     user.dob = payload.dob,
+            //     user.email = payload.email,
+            //     user.workEmail = payload.workEmail,
+            //     user.phone = payload.phone,
+            //     user.workPhone = payload.workPhone,
+            //     user.apt = payload.apt,
+            //     user.street = payload.street,
+            //     user.city = payload.city,
+            //     user.state = payload.state,
+            //     user.zipcode = payload.zipcode,
+            //     user.profilePic = payload.profilePic
         },
         setUser(state, payload) {
             state._fireUser = payload
+        },
+        setIsLoading(state, payload){
+            state._isLoading = payload
+        },
+        setError(state, payload){
+            state._error = payload
+        },
+        clearError(state){
+            state._error = null
         }
     },
     actions: {
@@ -171,9 +189,11 @@ export const store = new Vuex.Store({
             commit('updateProfile', updatedProfile)
         },
         signUpUser({ commit }, payload) {
+            commit('setIsLoading', true)
             firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
                 .then(
                 user => {
+                    commit('setIsLoading', false)
                     const newUser = {
                         userId: user.uid
                     }
@@ -182,14 +202,18 @@ export const store = new Vuex.Store({
                 )
                 .catch(
                 err => {
+                    commit('setIsLoading', false)
+                    commit('setError', err)
                     console.log(err, err.message)
                 }
                 )
         },
         signInUser({ commit }, payload) {
+            commit('setIsLoading', true)
             firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
                 .then(
                 user => {
+                    commit('setIsLoading', false)
                     const newUser = {
                         userId: user.uid
                     }
@@ -197,16 +221,23 @@ export const store = new Vuex.Store({
                 })
                 .catch(
                 err => {
+                    commit('setIsLoading', false)
+                    commit('setError', err)
                     console.log(err, err.message)
                 })
         },
         signOutUser({ commit }) {
+            commit('setIsLoading', true)
             firebase.auth().signOut().then(
                 (x) => {
+                    commit('setIsLoading', false)
                     Router.push('/signin')
                     commit('setUser', x)
                 }
             )
+        },
+        clearError({commit}){
+            commit('clearError')
         }
     }
 })

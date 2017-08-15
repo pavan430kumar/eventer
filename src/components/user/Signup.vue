@@ -3,6 +3,11 @@
     <v-container class="mt-3">
       <v-layout row wrap>
         <v-flex xs12 lg4 offset-lg4>
+          <v-layout>
+            <v-flex v-if="error">
+              <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+            </v-flex>
+          </v-layout>
           <v-card>
             <v-card-text>
               <v-layout row>
@@ -52,6 +57,13 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-layout>
+        <v-flex>
+          <v-dialog v-model="isLoading" persistent>
+            <v-progress-circular v-if="isLoading" indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
+          </v-dialog>
+        </v-flex>
+      </v-layout>
     </v-container>
   </v-slide-x-transition>
 </template>
@@ -74,6 +86,13 @@ export default {
     isUserAuthenticated() {
       var user = this.$store.getters.getFirebaseUser
       return user
+    },
+    isLoading() {
+      return this.$store.getters.getIsLoading
+    },
+    error() {
+      var test = this.$store.getters.getError
+      return test
     }
   },
   watch: {
@@ -85,8 +104,17 @@ export default {
   methods: {
     onSignUp() {
       this.$store.dispatch('signUpUser', { email: this.email, password: this.password })
+    },
+    onDismissed() {
+      console.log('dismissed !!!')
+      this.$store.dispatch('clearError')
     }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+  .progress-circular
+    margin: 1rem
+</style>
 

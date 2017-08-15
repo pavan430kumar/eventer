@@ -4,9 +4,11 @@ import App from './App'
 import router from './router'
 import { store } from './store'
 import firebase from 'firebase'
+import AlertComp from './components/shared/Alert.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
+Vue.component('app-alert',AlertComp)
 
 let app;
 
