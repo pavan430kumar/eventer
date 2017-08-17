@@ -78,6 +78,9 @@ export default {
       confirmPassword: ''
     }
   },
+   created () {
+    this.$store.dispatch('clearError')
+  },
   computed: {
     sighUpFormIsValid() {
       return this.email != '' &&
@@ -91,8 +94,7 @@ export default {
       return this.$store.getters.getIsLoading
     },
     error() {
-      var test = this.$store.getters.getError
-      return test
+      return this.$store.getters.getError
     }
   },
   watch: {

@@ -8,6 +8,12 @@
           </v-list-tile-action>
           <v-list-tile-content>{{item.title}}</v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="signOut" v-show="isUserLoggedIn">
+          <v-list-tile-action>
+          <v-icon left>lock_outline</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Sign Out</v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
   

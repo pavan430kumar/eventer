@@ -72,6 +72,9 @@ export default {
       password: ''
     }
   },
+  created () {
+    this.$store.dispatch('clearError')
+  },
   computed: {
     loginFormIsValid() {
       return this.email != '' &&
