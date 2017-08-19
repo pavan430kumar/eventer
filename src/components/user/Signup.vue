@@ -8,12 +8,8 @@
               <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
             </v-flex>
           </v-layout>
-          <v-layout>
-            <v-flex>
-              <v-progress-linear v-if="isLoading" v-bind:indeterminate="true"></v-progress-linear>
-            </v-flex>
-          </v-layout>
           <v-card>
+            <v-progress-linear v-if="isLoading" v-bind:indeterminate="true"></v-progress-linear>
             <v-card-text>
               <v-layout row>
                 <v-flex>
