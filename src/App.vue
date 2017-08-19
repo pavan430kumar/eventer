@@ -74,7 +74,6 @@ export default {
     },
     isUserLoggedIn() {
       var test = this.$store.getters.getFirebaseUser
-      console.log(test)
       return test !== null && test !== undefined
     }
   },

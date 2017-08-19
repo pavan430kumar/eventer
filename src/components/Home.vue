@@ -2,7 +2,12 @@
   <v-slide-x-transition>
     <v-container>
       <v-layout row wrap>
-        <v-flex xs12 lg8 offset-lg2 class="mt-2">
+        <v-flex xs12 lg8 offset-lg2 class="mt-2" v-if="isEventsLoading">
+          <v-progress-circular indeterminate v-bind:size="200" v-bind:width="7" class="primary--text"></v-progress-circular>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs12 lg8 offset-lg2 class="mt-2" v-if="!isEventsLoading">
           <v-carousel style="cursor: pointer">
             <v-carousel-item v-for="event in myEvents" :src="event.imageUrl" :key="event.id" transition="fade-transition" reverseTransition="fade-transition" @click="goToSelectedEvent(event.id)">
               <div class="title">{{event.title}}</div>
@@ -21,9 +26,15 @@
 
 <script>
 export default {
+  created() {
+    this.$store.dispatch('getEvents')
+  },
   computed: {
     myEvents() {
       return this.$store.getters.loadFeaturedEvents
+    },
+    isEventsLoading() {
+      return this.$store.getters.getIsLoading
     }
   },
   methods: {

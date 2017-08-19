@@ -76,8 +76,9 @@ let router = new Router({
         requiresAuth: true
       }
     }
-  ],
-  mode: 'history'
+  ]
+  // ,
+  // mode: 'history'
 })
 
 router.beforeEach((to, from, next) => {

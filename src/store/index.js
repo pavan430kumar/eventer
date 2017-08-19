@@ -17,26 +17,6 @@ export const store = new Vuex.Store({
     state: {
         _loadEvents: [
             {
-                imageUrl: 'https://media.timeout.com/images/103444978/image.jpg',
-                id: 1,
-                location: 'test1',
-                title: 'New York',
-                date: '2017-07-19',
-                startTime: '',
-                endTime: '',
-                description: ''
-            },
-            {
-                imageUrl: 'http://www.touristsbook.com/boston/files/2015/02/Boston-Downtown-Skyline-Buidlings.jpg',
-                id: 2,
-                title: 'Boston',
-                location: 'test1',
-                date: '2017-07-29',
-                startTime: '',
-                endTime: '',
-                description: ''
-            },
-            {
                 imageUrl: 'http://image.myvr.com/36072b4208f38136/f8d8a898d349dbd2/102-1downtown-los-angeles.jpg',
                 id: 3,
                 title: 'New Jersey',
@@ -44,42 +24,42 @@ export const store = new Vuex.Store({
                 date: '2017-06-05',
                 startTime: '',
                 endTime: '',
-                description: ''
+                description: '',
             }
         ],
         _user: [
-            {
-                userId: 1234,
-                firstName: 'Pavan',
-                lastName: 'Kumar',
-                dob: 'Jun 5th, 1992',
-                email: 'eventeradmin@example.com',
-                workEmail: '',
-                phone: '970-232-4991',
-                workPhone: '',
-                street: '35 Grimes Rd',
-                apt: 'C213',
-                city: 'RockyHill',
-                state: 'CT',
-                zipcode: '06067',
-                profilePic: 'https://s-media-cache-ak0.pinimg.com/originals/5e/f4/79/5ef47920fc689db66b4c69be072771b6.jpg'
-            },
-            {
-                userId: 4321,
-                firstName: 'Shrath',
-                lastName: 'Chandra',
-                dob: 'Oct 21st, 1994',
-                email: 'sharath@example.com',
-                workEmail: '',
-                phone: '829-712-3895',
-                workPhone: '',
-                street: 'Rezimental Bazar',
-                apt: '9-3-761',
-                city: 'Secunderabad',
-                state: 'TG',
-                zipcode: '500025',
-                profilePic: ''
-            }
+            // {
+            //     userId: 1234,
+            //     firstName: 'Pavan',
+            //     lastName: 'Kumar',
+            //     dob: 'Jun 5th, 1992',
+            //     email: 'eventeradmin@example.com',
+            //     workEmail: '',
+            //     phone: '970-232-4991',
+            //     workPhone: '',
+            //     street: '35 Grimes Rd',
+            //     apt: 'C213',
+            //     city: 'RockyHill',
+            //     state: 'CT',
+            //     zipcode: '06067',
+            //     profilePic: 'https://s-media-cache-ak0.pinimg.com/originals/5e/f4/79/5ef47920fc689db66b4c69be072771b6.jpg'
+            // },
+            // {
+            //     userId: 4321,
+            //     firstName: 'Shrath',
+            //     lastName: 'Chandra',
+            //     dob: 'Oct 21st, 1994',
+            //     email: 'sharath@example.com',
+            //     workEmail: '',
+            //     phone: '829-712-3895',
+            //     workPhone: '',
+            //     street: 'Rezimental Bazar',
+            //     apt: '9-3-761',
+            //     city: 'Secunderabad',
+            //     state: 'TG',
+            //     zipcode: '500025',
+            //     profilePic: ''
+            // }
         ],
         _fireUser: null,
         _isLoading: false,
@@ -111,66 +91,114 @@ export const store = new Vuex.Store({
         getFirebaseUser(state) {
             return state._fireUser
         },
-        getIsLoading(state){
+        getIsLoading(state) {
             return state._isLoading
         },
-        getError(state){
+        getError(state) {
             return state._error
         }
     },
     mutations: {
+        getEvents(state, payload) {
+            state._loadEvents = payload
+        },
         createEvent(state, payload) {
-            state._loadEvents.push(payload)
+            state._loadEvents.push(payload + 'mut')
+        },
+        getUserProfile(state, payload) {
+            state._user.push(payload)
         },
         updateProfile(state, payload) {
-            console.log(payload)
-            var user = state._user.find(user => {
-                return user.userId == payload.userId
+            var userIndexKey = state._user.findIndex(user => {
+                return user.userId === payload.userId
             })
-            user = payload
-            console.log(state._user.find(user => { return user.userId == payload.userId}))
-            // user.firstName = payload.firstName,
-            //     user.lastName = payload.lastName,
-            //     user.dob = payload.dob,
-            //     user.email = payload.email,
-            //     user.workEmail = payload.workEmail,
-            //     user.phone = payload.phone,
-            //     user.workPhone = payload.workPhone,
-            //     user.apt = payload.apt,
-            //     user.street = payload.street,
-            //     user.city = payload.city,
-            //     user.state = payload.state,
-            //     user.zipcode = payload.zipcode,
-            //     user.profilePic = payload.profilePic
+            userIndexKey = (userIndexKey === -1) ? state._user.push(payload) : state._user[userIndexKey] = payload
         },
         setUser(state, payload) {
             state._fireUser = payload
         },
-        setIsLoading(state, payload){
+        setIsLoading(state, payload) {
             state._isLoading = payload
         },
-        setError(state, payload){
+        setError(state, payload) {
             state._error = payload
         },
-        clearError(state){
+        clearError(state) {
             state._error = null
         }
     },
     actions: {
-        createEvent({ commit }, payload) {
+        getEvents({ commit }) {
+            commit('setIsLoading', true)
+            firebase.database().ref('events').once('value')
+                .then(
+                data => {
+                    const events = []
+                    const obj = data.val()
+                    for (let key in obj) {
+                        events.push({
+                            id: key,
+                            title: obj[key].title,
+                            location: obj[key].location,
+                            imageUrl: obj[key].imageUrl,
+                            date: obj[key].date,
+                            startTime: obj[key].startTime,
+                            endTime: obj[key].endTime,
+                            description: obj[key].description,
+                            createdUser: obj[key].createdUser
+                        })
+                    }
+                    commit('setIsLoading', false)
+                    commit('getEvents', events)
+                })
+                .catch(
+                err => { console.log(err) }
+                )
+        },
+        createEvent({ commit, state }, payload) {
+            var user = state._fireUser.userId
             const event = {
                 title: payload.title,
                 location: payload.location,
                 imageUrl: payload.imageUrl,
-                date: payload.description,
-                id: 10
+                date: payload.date,
+                startTime: payload.startTime,
+                endTime: payload.endTime,
+                description: payload.description,
+                createdUser: user
             }
-            //Reach out to firebase and store
-            commit('createEvent', event)
+            firebase.database().ref('events').push(event)
+                .then(
+                data => {
+                    var key = data.key
+                    commit('createEvent', { ...event, id: key })
+                })
+                .catch(
+                err => {
+                    console.log(err)
+                })
         },
-        updateProfile({ commit }, payload) {
+        getUserProfile({ commit, state }) {
+            const currentUserId = state._fireUser.userId
+            firebase.database().ref('users').once('value')
+                .then(
+                data => {
+                    const obj = data.val()
+                    var currentUserProfile = null
+                    for (let key in obj) {
+                        if (key == currentUserId) {
+                            currentUserProfile = obj[key]
+                        }
+                    }
+                    if (currentUserProfile !== null) {
+                        commit('getUserProfile', { ...currentUserProfile, userId: currentUserId })
+                    }
+                }
+                )
+                .catch(err => { console.log(err) })
+        },
+        updateProfile({ commit, state }, payload) {
             const updatedProfile = {
-                userId: payload.userId,
                 firstName: payload.firstName,
                 lastName: payload.lastName,
                 dob: payload.dob,
@@ -185,8 +213,20 @@ export const store = new Vuex.Store({
                 zipcode: payload.zipcode,
                 profilePic: payload.profilePic
             }
-            //Reach out to firebase and store
-            commit('updateProfile', updatedProfile)
+            const currentUserId = state._fireUser.userId
+            console.log('firebase user Id' + currentUserId)
+            var usersRef = firebase.database().ref('users')
+            usersRef.child(currentUserId).set(updatedProfile)
+                .then(
+                data => {
+                    commit('updateProfile', { ...updatedProfile, userId: currentUserId })
+                    Router.push('/profile')
+                })
+                .catch(
+                err => {
+                    console.log(err)
+                }
+                )
         },
         signUpUser({ commit }, payload) {
             commit('setIsLoading', true)
@@ -236,7 +276,7 @@ export const store = new Vuex.Store({
                 }
             )
         },
-        clearError({commit}){
+        clearError({ commit }) {
             commit('clearError')
         }
     }

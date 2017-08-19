@@ -3,8 +3,12 @@
     <v-container class="mt-3">
       <v-layout row>
         <v-flex xs12 lg8 offset-lg2>
+          <v-btn to='/profile/update'>Update Profile</v-btn>
+        </v-flex>
+      </v-layout>
+      <v-layout row>
+        <v-flex xs12 lg8 offset-lg2 v-if="userProfile !== undefined">
           <v-card>
-            <v-btn to='/profile/update'>Update Profile</v-btn>
             <v-card-media :src="userProfile.profilePic" height="300px">
               <v-layout column class="media">
                 <v-spacer></v-spacer>
@@ -52,6 +56,7 @@
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile v-show="userProfile.workEmail !== ''">
+              <v-list-tile-action></v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>{{userProfile.workEmail}}</v-list-tile-title>
                 <v-list-tile-sub-title>Work Email</v-list-tile-sub-title>
@@ -76,9 +81,15 @@
 
 <script>
 export default {
+  created() {
+    this.$store.dispatch('getUserProfile')
+  },
   computed: {
     userProfile() {
-      return this.$store.getters.getUser(1234)
+      var loggedInUser = this.$store.getters.getFirebaseUser.userId
+      var test = this.$store.getters.getUser(loggedInUser)
+      console.log(test)
+      return test
     }
   }
 }

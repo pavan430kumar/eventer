@@ -74,16 +74,11 @@
                     <v-layout row>
                       <v-flex xs12 sm6 offset-sm3>
                         <v-text-field name="imageUrl" label="ImageUrl" id="imageUrl" v-model="imageUrl" prepend-icon="image" required></v-text-field>
-                        <!-- <div>
-                              <img :src="imageUrl" height="200" width="270">
-                            </div> -->
                       </v-flex>
                     </v-layout>
                     <v-layout row>
-                      <v-flex xs12 lg4 offset-lg4>
-                        <div v-show="imageUrl !== ''">
-                          <img :src="imageUrl" height="200" width="270">
-                        </div>
+                      <v-flex xs10 lg6 sm6 offset-sm3 offset-lg3 offset-xs1>
+                         <v-card class="portrait" v-show="imageUrl != ''" :img="imageUrl" height="200px" slot="activator"></v-card>
                       </v-flex>
                     </v-layout>
                     <v-layout row>
@@ -141,9 +136,12 @@ export default {
       }
       const eventData = {
         title: this.title,
-        description: this.description,
-        imageUrl: this.imageUrl,
         location: this.location,
+        date: new Date(this.date),
+        startTime: this.startTime,
+        endTime: this.endTime,
+        description: this.description,
+        imageUrl: this.imageUrl
       }
       this.$store.dispatch('createEvent', eventData)
       this.$router.push('/events')

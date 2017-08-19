@@ -8,7 +8,7 @@ import AlertComp from './components/shared/Alert.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
-Vue.component('app-alert',AlertComp)
+Vue.component('app-alert', AlertComp)
 
 let app;
 

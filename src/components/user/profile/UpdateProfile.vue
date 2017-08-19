@@ -80,21 +80,20 @@
                     </v-stepper-content>
                     <v-stepper-step step="3" v-bind:complete="updateModel > 3">Upload Profile Image</v-stepper-step>
                     <v-stepper-content step="3">
-                        <v-card class="lighten-1 z-depth-1 mb-5" height="200px">
+                        <v-card class="lighten-1 z-depth-1 mb-2" height="120px">
                             <v-card-text>
                                 <h6 class="white--text">Image Url</h6>
                                 <v-text-field label="Profile Picture Url" v-model="profilePic"></v-text-field>
-                                <v-layout row>
-                                    <v-flex xs12 lg4 offset-lg4>
-                                        <div v-show="profilePic != ''">
-                                            <img :src="profilePic" height="200" width="270">
-                                        </div>
-                                    </v-flex>
-                                </v-layout>
+    
                             </v-card-text>
                         </v-card>
-                        <v-btn primary type="submit" @click="updateProfile">Update Profile</v-btn>
+                        <v-layout>
+                            <v-flex xs12 lg6 md6 offset-lg3 offset-md3>
+                                <v-card class="portrait" v-show="profilePic != ''" :img="profilePic" height="200px" slot="activator"></v-card>
+                            </v-flex>
+                        </v-layout>
                     </v-stepper-content>
+                    <v-btn primary type="submit" @click="updateProfile">Update Profile</v-btn>
                 </v-stepper>
             </v-flex>
         </v-layout>
@@ -122,6 +121,26 @@ export default {
         zipcode:'',
         profilePic: ''
       }
+    },
+    mounted() {
+      var user =  this.$store.getters.getFirebaseUser
+         var userProfileInfo = this.$store.getters.getUser(user.userId)
+         console.log(userProfileInfo)
+           if(userProfileInfo){
+               this.dob= userProfileInfo.dob,
+               this.firstName= userProfileInfo.firstName,
+               this.lastName= userProfileInfo.lastName,
+               this.email= userProfileInfo.email,
+               this.workEmail= userProfileInfo.workEmail,
+               this.phone= userProfileInfo.phone,
+               this.workPhone= userProfileInfo.workPhone,
+               this.street=userProfileInfo.street,
+               this.apt=userProfileInfo.apt,
+               this.city=userProfileInfo.city,
+               this.state=userProfileInfo.state,
+               this.zipcode=userProfileInfo.zipcode,
+               this.profilePic= userProfileInfo.profilePic
+           }
     },
     computed: {
         isPersonalInfoValid(){
@@ -155,7 +174,6 @@ export default {
         },
         updateProfile(){
             const updatedProfileInfo = {
-                userId: 4321,
                 firstName: this.firstName,
                 lastName : this.lastName,
                 dob: this.dob,
@@ -170,9 +188,7 @@ export default {
                 zipcode: this.zipcode,
                 profilePic: this.profilePic
             }
-
             this.$store.dispatch('updateProfile', updatedProfileInfo)
-            this.$router.push('/profile')
         }
     }
 }
