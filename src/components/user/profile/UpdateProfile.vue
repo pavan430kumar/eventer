@@ -1,102 +1,110 @@
   <template>
-    <!-- <v-slide-x-transition> -->
-    <v-container>
-        <v-layout row>
-            <v-flex xs12 lg8 offset-lg2>
-                <div class="white--text display-1">Update Profile</div>
-            </v-flex>
-        </v-layout>
-        <v-layout row>
-            <v-flex xs12 lg8 offset-lg2>
-                <v-stepper v-model="updateModel" vertical>
-                    <v-stepper-step step="1" v-bind:complete="updateModel > 1" editable>Personal Information</v-stepper-step>
-                    <v-stepper-content step="1">
-                        <v-card class=" lighten-1 z-depth-1 mb-2 lg-5" height="280px">
-                            <v-card-text>
-                                <v-text-field label="First Name" v-model="firstName" required></v-text-field>
-                                <v-text-field label="Last Name" v-model="lastName"></v-text-field>
-                                <v-menu lazy :close-on-content-click="false" v-model="menuDob" transition="scale-transition" full-width offset-y :nudge-left="40" max-width="290px">
-                                    <v-text-field slot="activator" label="Date of Birth" v-model="dob" readonly></v-text-field>
-                                    <v-date-picker v-model="dob" dark actions>
-                                        <template scope="{ save, cancel }">
-                                            <v-card-actions>
-                                                <v-btn flat primary @click="cancel()">Cancel</v-btn>
-                                                <v-btn flat primary @click.native="save()">Save</v-btn>
-                                            </v-card-actions>
-                                        </template>
-                                    </v-date-picker>
-                                </v-menu>
-                            </v-card-text>
-                        </v-card>
-                        <v-btn primary @click="updateModel = 2" :disabled="!isPersonalInfoValid">Continue</v-btn>
-                    </v-stepper-content>
-                    <v-stepper-step step="2" v-bind:complete="updateModel > 2" editable>Contact Information</v-stepper-step>
-                    <v-stepper-content step="2">
-                        <v-card class="lighten-1 z-depth-1 mb-2" height="460px">
-                            <v-card-text>
-                                <h6 class="white--text">Email and Phone</h6>
-                                <v-layout>
-                                    <v-flex xs6>
-                                        <v-text-field label="Personal Email" v-model="email" required></v-text-field>
-                                    </v-flex>
-                                    <v-flex xs6>
-                                        <v-text-field label="Work Email" v-model="workEmail"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex xs6>
-                                        <v-text-field label="Mobile Phone" v-model="phone" required></v-text-field>
-                                    </v-flex>
-                                    <v-flex xs6>
-                                        <v-text-field label="Work Phone" v-model="workPhone"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <br>
-                                <h6 class="white--text">Address</h6>
-                                <v-layout>
-                                    <v-flex xs6>
-                                        <v-text-field label="Street Address" v-model="street" required></v-text-field>
-                                    </v-flex>
-                                    <v-flex xs6>
-                                        <v-text-field label="Apt No" v-model="apt"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex xs5>
-                                        <v-text-field label="City" v-model="city" required></v-text-field>
-                                    </v-flex>
-                                    <v-flex xs3>
-                                        <v-text-field label="State" v-model="state" required></v-text-field>
-                                    </v-flex>
-                                    <v-flex xs4>
-                                        <v-text-field label="ZipCode" v-model="zipcode" required></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                        <v-btn primary @click="updateModel = 3" :disabled="!isContactInfoValid">Continue</v-btn>
-                    </v-stepper-content>
-                    <v-stepper-step step="3" v-bind:complete="updateModel > 3" editable>Upload Profile Image</v-stepper-step>
-                    <v-stepper-content step="3">
-                        <v-card class="lighten-1 z-depth-1 mb-2" height="120px">
-                            <v-card-text>
-                                <h6 class="white--text">Image Url</h6>
-                                <v-text-field label="Profile Picture Url" v-model="profilePic"></v-text-field>
+    <v-slide-x-transition>
+        <v-container>
+            <v-layout row>
+                <v-flex xs12 lg8 offset-lg2>
+                    <div class="white--text display-1">Update Profile</div>
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs12 lg8 offset-lg2 class="mt-1">
+                    <v-stepper v-model="updateModel" vertical>
+                        <v-stepper-step step="1" v-bind:complete="updateModel > 1">Personal Information</v-stepper-step>
+                        <v-stepper-content step="1">
+                            <v-card class=" lighten-1 z-depth-1 mb-2 lg-5" height="280px">
+                                <v-card-text>
+                                    <v-text-field label="First Name" v-model="firstName" required></v-text-field>
+                                    <v-text-field label="Last Name" v-model="lastName"></v-text-field>
+                                    <v-menu lazy :close-on-content-click="false" v-model="menuDob" transition="scale-transition" full-width offset-y :nudge-left="40" max-width="290px">
+                                        <v-text-field slot="activator" label="Date of Birth" v-model="dob" readonly></v-text-field>
+                                        <v-date-picker v-model="dob" dark actions>
+                                            <template scope="{ save, cancel }">
+                                                <v-card-actions>
+                                                    <v-btn flat primary @click="cancel()">Cancel</v-btn>
+                                                    <v-btn flat primary @click.native="save()">Save</v-btn>
+                                                </v-card-actions>
+                                            </template>
+                                        </v-date-picker>
+                                    </v-menu>
+                                </v-card-text>
+                            </v-card>
+                            <v-btn primary @click="updateModel = 2" :disabled="!isPersonalInfoValid">Continue</v-btn>
+                        </v-stepper-content>
+                        <v-stepper-step step="2" v-bind:complete="updateModel > 2">Contact Information</v-stepper-step>
+                        <v-stepper-content step="2">
+                            <v-card class="lighten-1 z-depth-1 mb-2" height="460px">
+                                <v-card-text>
+                                    <h6 class="white--text">Email and Phone</h6>
+                                    <v-layout>
+                                        <v-flex xs6>
+                                            <v-text-field label="Personal Email" v-model="email" required></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-text-field label="Work Email" v-model="workEmail"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs6>
+                                            <v-text-field label="Mobile Phone" v-model="phone" required></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-text-field label="Work Phone" v-model="workPhone"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <br>
+                                    <h6 class="white--text">Address</h6>
+                                    <v-layout>
+                                        <v-flex xs6>
+                                            <v-text-field label="Street Address" v-model="street" required></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-text-field label="Apt No" v-model="apt"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs5>
+                                            <v-text-field label="City" v-model="city" required></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs3>
+                                            <v-text-field label="State" v-model="state" required></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs4>
+                                            <v-text-field label="ZipCode" v-model="zipcode" required></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                            <v-btn primary @click="updateModel = 3" :disabled="!isContactInfoValid">Continue</v-btn>
+                        </v-stepper-content>
+                        <v-stepper-step step="3" v-bind:complete="updateModel > 3">
+                            Upload Profile Image
+                            <small>Optional</small>
+                        </v-stepper-step>
+                        <v-stepper-content step="3">
+                            <v-card class="lighten-1 z-depth-1 mb-2" height="120px">
+                                <v-card-text>
+                                    <h6 class="white--text">Image Url</h6>
+                                    <v-text-field label="Profile Picture Url" v-model="profilePic"></v-text-field>
     
-                            </v-card-text>
-                        </v-card>
-                        <v-layout>
-                            <v-flex xs12 lg6 md6 offset-lg3 offset-md3>
-                                <v-card class="portrait" v-show="profilePic != ''" :img="profilePic" height="200px" slot="activator"></v-card>
-                            </v-flex>
-                        </v-layout>
-                    </v-stepper-content>
-                    <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid">Update Profile</v-btn>
-                </v-stepper>
-            </v-flex>
-        </v-layout>
-    </v-container>
-    <!-- </v-slide-x-transition> -->
+                                </v-card-text>
+                            </v-card>
+                            <v-layout>
+                                <v-flex xs12 lg6 md6 offset-lg3 offset-md3>
+                                    <v-card class="portrait" v-show="profilePic != ''" :img="profilePic" height="200px" slot="activator"></v-card>
+                                </v-flex>
+                            </v-layout>
+                        </v-stepper-content>
+                    </v-stepper>
+                    <v-layout row>
+                        <v-flex class="mt-2 text-xs-center">
+                            <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid">Update</v-btn>
+                             <v-btn primary to="/profile">Back</v-btn>
+                        </v-flex>
+                    </v-layout>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </v-slide-x-transition>
 </template>
 
 <<script>

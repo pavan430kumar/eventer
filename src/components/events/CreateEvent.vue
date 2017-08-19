@@ -87,7 +87,7 @@
                       </v-flex>
                     </v-layout>
                     <v-layout row>
-                      <v-flex xs12 sm6 lg6 offset-sm3>
+                      <v-flex class="text-xs-center" xs12 sm6 lg6 offset-sm3>
                         <v-btn :disabled="!formIsValid" type="submit">Create Event</v-btn>
                       </v-flex>
                     </v-layout>
