@@ -2,15 +2,16 @@
   <v-slide-x-transition>
     <v-container class="mt-3">
       <v-layout row>
-        <v-flex xs12 lg8 offset-lg2>
-          <v-btn to='/profile/update'>Update Profile</v-btn>
-        </v-flex>
-      </v-layout>
-      <v-layout row>
         <v-flex xs12 lg8 offset-lg2 v-if="userProfile !== undefined">
           <v-card>
             <v-card-media :src="userProfile.profilePic" height="300px">
               <v-layout column class="media">
+                <v-card-title>
+                  <v-spacer></v-spacer>
+                  <v-btn fab dark small class="primary" v-tooltip:bottom="{ html: 'Edit Profile' }" to='/profile/update'>
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                </v-card-title>
                 <v-spacer></v-spacer>
                 <v-card-title class="white--text pl-5 pt-5">
                   <div class="display-1">{{userProfile.firstName}} {{userProfile.lastName}}</div>

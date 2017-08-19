@@ -9,9 +9,9 @@
         <v-layout row>
             <v-flex xs12 lg8 offset-lg2>
                 <v-stepper v-model="updateModel" vertical>
-                    <v-stepper-step step="1" v-bind:complete="updateModel > 1">Personal Information</v-stepper-step>
+                    <v-stepper-step step="1" v-bind:complete="updateModel > 1" editable>Personal Information</v-stepper-step>
                     <v-stepper-content step="1">
-                        <v-card class=" lighten-1 z-depth-1 mb-5 lg-5" height="300px">
+                        <v-card class=" lighten-1 z-depth-1 mb-2 lg-5" height="280px">
                             <v-card-text>
                                 <v-text-field label="First Name" v-model="firstName" required></v-text-field>
                                 <v-text-field label="Last Name" v-model="lastName"></v-text-field>
@@ -29,11 +29,10 @@
                             </v-card-text>
                         </v-card>
                         <v-btn primary @click="updateModel = 2" :disabled="!isPersonalInfoValid">Continue</v-btn>
-                        <v-btn @click="onClearPersonalInfo">Cancel</v-btn>
                     </v-stepper-content>
-                    <v-stepper-step step="2" v-bind:complete="updateModel > 2">Contact Information</v-stepper-step>
+                    <v-stepper-step step="2" v-bind:complete="updateModel > 2" editable>Contact Information</v-stepper-step>
                     <v-stepper-content step="2">
-                        <v-card class="lighten-1 z-depth-1 mb-5" height="460px">
+                        <v-card class="lighten-1 z-depth-1 mb-2" height="460px">
                             <v-card-text>
                                 <h6 class="white--text">Email and Phone</h6>
                                 <v-layout>
@@ -76,9 +75,8 @@
                             </v-card-text>
                         </v-card>
                         <v-btn primary @click="updateModel = 3" :disabled="!isContactInfoValid">Continue</v-btn>
-                        <v-btn @click="onClearContactlInfo">Cancel</v-btn>
                     </v-stepper-content>
-                    <v-stepper-step step="3" v-bind:complete="updateModel > 3">Upload Profile Image</v-stepper-step>
+                    <v-stepper-step step="3" v-bind:complete="updateModel > 3" editable>Upload Profile Image</v-stepper-step>
                     <v-stepper-content step="3">
                         <v-card class="lighten-1 z-depth-1 mb-2" height="120px">
                             <v-card-text>
@@ -93,7 +91,7 @@
                             </v-flex>
                         </v-layout>
                     </v-stepper-content>
-                    <v-btn primary type="submit" @click="updateProfile">Update Profile</v-btn>
+                    <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid">Update Profile</v-btn>
                 </v-stepper>
             </v-flex>
         </v-layout>
@@ -153,6 +151,9 @@ export default {
             this.city != '' &&
             this.state != '' &&
             this.zipcode != ''
+        },
+        isSubmitValid(){
+            return this.isPersonalInfoValid && this.isContactInfoValid
         }
     },
     methods: {
