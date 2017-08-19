@@ -8,6 +8,11 @@
               <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
             </v-flex>
           </v-layout>
+          <v-layout>
+            <v-flex>
+              <v-progress-linear v-if="isLoading" v-bind:indeterminate="true"></v-progress-linear>
+            </v-flex>
+          </v-layout>
           <v-card>
             <v-card-text>
               <v-layout row>
@@ -52,13 +57,6 @@
           </v-card>
         </v-flex>
       </v-layout>
-      <v-layout>
-        <v-flex>
-          <v-dialog v-model="isLoading" persistent>
-            <v-progress-circular v-if="isLoading" indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
-          </v-dialog>
-        </v-flex>
-      </v-layout>
     </v-container>
   </v-slide-x-transition>
 </template>
@@ -72,7 +70,7 @@ export default {
       password: ''
     }
   },
-  created () {
+  created() {
     this.$store.dispatch('clearError')
   },
   computed: {
