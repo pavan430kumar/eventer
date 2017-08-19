@@ -1,11 +1,9 @@
 <template>
   <v-slide-x-transition>
     <v-container>
-      <v-layout row wrap>
-        <v-flex xs12 lg8 offset-lg2 class="mt-2" v-if="isEventsLoading">
-          <v-progress-circular indeterminate v-bind:size="200" v-bind:width="7" class="primary--text"></v-progress-circular>
-        </v-flex>
-      </v-layout>
+      <div>
+        <v-progress-circular v-if="isEventsLoading" indeterminate class="primary--text"></v-progress-circular>
+      </div>
       <v-layout row wrap>
         <v-flex xs12 lg8 offset-lg2 class="mt-2" v-if="!isEventsLoading">
           <v-carousel style="cursor: pointer">
@@ -17,7 +15,7 @@
       </v-layout>
       <v-layout row wrap class="mt-2">
         <v-flex xs-12 class="text-xs-center">
-          <p> Join our Events! </p>
+          <!-- <p> Join our Events! </p> -->
         </v-flex>
       </v-layout>
     </v-container>
@@ -45,7 +43,7 @@ export default {
 }
 </script>
 
-<<style scoped>
+<<style lang="stylus" scoped>
   .title{
     position: absolute;
     bottom: 50px;
@@ -53,5 +51,11 @@ export default {
     font-size: 2em;
      padding: 15px; 
   }
+
+  div
+    text-align: center
+
+  .progress-circular
+    margin: 1rem
 </style>
 

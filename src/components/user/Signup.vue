@@ -10,6 +10,7 @@
           </v-layout>
           <v-card>
             <v-progress-linear v-if="isLoading" v-bind:indeterminate="true"></v-progress-linear>
+            <div v-if="!isLoading"><p>&nbsp;</p></div>
             <v-card-text>
               <v-layout row>
                 <v-flex>
