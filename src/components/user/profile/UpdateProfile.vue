@@ -32,9 +32,11 @@
                         </v-stepper-content>
                         <v-stepper-step step="2" v-bind:complete="updateModel > 2">Contact Information</v-stepper-step>
                         <v-stepper-content step="2">
-                            <v-card class="lighten-1 z-depth-1 mb-2" height="460px">
+                            <v-card class="lighten-1 z-depth-1 mb-2" height="490px">
                                 <v-card-text>
-                                    <h6 class="white--text">Email and Phone</h6>
+                                    <h6 class="white--text">Email and Phone </h6>
+                                    <v-divider light></v-divider>
+                                    <br>
                                     <v-layout>
                                         <v-flex xs6>
                                             <v-text-field label="Personal Email" v-model="email" required></v-text-field>
@@ -51,8 +53,9 @@
                                             <v-text-field label="Work Phone" v-model="workPhone"></v-text-field>
                                         </v-flex>
                                     </v-layout>
-                                    <br>
                                     <h6 class="white--text">Address</h6>
+                                    <v-divider light></v-divider>
+                                    <br>
                                     <v-layout>
                                         <v-flex xs6>
                                             <v-text-field label="Street Address" v-model="street" required></v-text-field>
@@ -75,30 +78,42 @@
                                 </v-card-text>
                             </v-card>
                             <v-btn primary @click="updateModel = 3" :disabled="!isContactInfoValid">Continue</v-btn>
+                            <!-- <v-btn primary @click="updateModel = 1" >Back</v-btn> -->
+                            <!-- <v-btn primary icon @click="updateModel = 1">
+                                    <v-icon>chevron_left</v-icon>
+                                </v-btn> -->
                         </v-stepper-content>
                         <v-stepper-step step="3" v-bind:complete="updateModel > 3">
                             Upload Profile Image
                             <small>Optional</small>
                         </v-stepper-step>
                         <v-stepper-content step="3">
-                            <v-card class="lighten-1 z-depth-1 mb-2" height="120px">
+                            <v-card class="lighten-1 z-depth-1 " height="135px">
                                 <v-card-text>
-                                    <h6 class="white--text">Image Url</h6>
+                                    <h6 class="white--text">
+                                        Image Url
+                                        <!-- <v-btn primary icon small @click="updateModel = 1">
+                                            <v-icon>chevron_left</v-icon>
+                                        </v-btn> -->
+                                    </h6>
+                                    <v-divider light></v-divider>
+                                   
                                     <v-text-field label="Profile Picture Url" v-model="profilePic"></v-text-field>
-    
                                 </v-card-text>
                             </v-card>
-                            <v-layout>
-                                <v-flex xs12 lg6 md6 offset-lg3 offset-md3>
-                                    <v-card class="portrait" v-show="profilePic != ''" :img="profilePic" height="200px" slot="activator"></v-card>
-                                </v-flex>
-                            </v-layout>
+                            <v-card class="lighten-1 z-depth-1">
+                                <v-layout>
+                                    <v-flex xs12 lg6 md6 offset-lg3 offset-md3>
+                                        <v-card class="portrait" v-show="profilePic != ''" :img="profilePic" height="200px" slot="activator"></v-card>
+                                    </v-flex>
+                                </v-layout>
+                            </v-card>
                         </v-stepper-content>
                     </v-stepper>
                     <v-layout row>
                         <v-flex class="mt-2 text-xs-center">
                             <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid">Update</v-btn>
-                             <v-btn primary to="/profile">Back</v-btn>
+                            <v-btn primary to="/profile">Back</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-flex>
