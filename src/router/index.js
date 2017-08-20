@@ -8,7 +8,9 @@ import Events from '@/components/events/AllEvents'
 import Profile from '@/components/user/profile/Profile'
 import Event from '@/components/events/Event'
 import UpdateProfile from '@/components/user/profile/UpdateProfile'
+import Welcome from '@/components/user/profile/Welcome'
 import firebase from 'firebase'
+import { store } from '../store'
 
 Vue.use(Router)
 
@@ -22,7 +24,8 @@ let router = new Router({
       path: '/',
       redirect: '/home',
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresProfile : true
       }
     },
     {
@@ -37,21 +40,24 @@ let router = new Router({
       path: '/home',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresProfile : true
       }
     },
     {
       path: '/create',
       component: Create,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresProfile : true
       }
     },
     {
       path: '/events',
       component: Events,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresProfile : true
       }
     },
     {
@@ -59,12 +65,21 @@ let router = new Router({
       props: true,
       component: Event,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresProfile : true
       }
     },
     {
       path: '/profile',
       component: Profile,
+      meta: {
+        requiresAuth: true,
+        requiresProfile : true
+      }
+    },
+    {
+      path: '/welcome',
+      component: Welcome,
       meta: {
         requiresAuth: true
       }
@@ -84,10 +99,14 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
 
   let currentUser = firebase.auth().currentUser;
+  //This will check if he is first time user with no profile created
+  let isFirstTimeUser = store.getters.getUser(currentUser == null ? currentUser : currentUser.uid) == undefined ? true : false
   let requiresAuth = to.matched.some(request => request.meta.requiresAuth);
+  let requiresProfile = to.matched.some(request => request.meta.requiresProfile);
 
   if (requiresAuth && !currentUser) next('/signin')
-  else if (!requiresAuth && currentUser) next('/home')
+  else if (currentUser && isFirstTimeUser && requiresProfile) next('/welcome')
+  else if (!requiresAuth && currentUser && !isFirstTimeUser) next('/')
   else next()
 })
 

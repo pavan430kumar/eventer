@@ -73,8 +73,8 @@ export default {
       return menuItems
     },
     isUserLoggedIn() {
-      var test = this.$store.getters.getFirebaseUser
-      return test !== null && test !== undefined
+      var user = this.$store.getters.getFirebaseUser 
+      return user !== null && user !== undefined
     }
   },
   methods: {

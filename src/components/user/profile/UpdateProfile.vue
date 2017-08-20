@@ -2,7 +2,10 @@
     <v-slide-x-transition>
         <v-container>
             <v-layout row>
-                <v-flex xs12 lg8 offset-lg2>
+                <v-flex xs12 lg8 offset-lg2 v-if="isFirstTimeUser">
+                    <div class="white--text display-1">Create Profile</div>
+                </v-flex>
+                <v-flex xs12 lg8 offset-lg2 v-else>
                     <div class="white--text display-1">Update Profile</div>
                 </v-flex>
             </v-layout>
@@ -80,8 +83,8 @@
                             <v-btn primary @click="updateModel = 3" :disabled="!isContactInfoValid">Continue</v-btn>
                             <!-- <v-btn primary @click="updateModel = 1" >Back</v-btn> -->
                             <!-- <v-btn primary icon @click="updateModel = 1">
-                                    <v-icon>chevron_left</v-icon>
-                                </v-btn> -->
+                                                    <v-icon>chevron_left</v-icon>
+                                                </v-btn> -->
                         </v-stepper-content>
                         <v-stepper-step step="3" v-bind:complete="updateModel > 3">
                             Upload Profile Image
@@ -93,11 +96,11 @@
                                     <h6 class="white--text">
                                         Image Url
                                         <!-- <v-btn primary icon small @click="updateModel = 1">
-                                            <v-icon>chevron_left</v-icon>
-                                        </v-btn> -->
+                                                            <v-icon>chevron_left</v-icon>
+                                                        </v-btn> -->
                                     </h6>
                                     <v-divider light></v-divider>
-                                   
+    
                                     <v-text-field label="Profile Picture Url" v-model="profilePic"></v-text-field>
                                 </v-card-text>
                             </v-card>
@@ -112,8 +115,9 @@
                     </v-stepper>
                     <v-layout row>
                         <v-flex class="mt-2 text-xs-center">
-                            <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid">Update</v-btn>
-                            <v-btn primary to="/profile">Back</v-btn>
+                            <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid" v-if="isFirstTimeUser">Create</v-btn>
+                            <v-btn primary type="submit" @click="updateProfile" :disabled="!isSubmitValid" v-else>Update</v-btn>
+                            <v-btn primary to="/profile" v-if="!isFirstTimeUser">Back</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-flex>
@@ -177,7 +181,12 @@ export default {
         },
         isSubmitValid(){
             return this.isPersonalInfoValid && this.isContactInfoValid
-        }
+        },
+        isFirstTimeUser() {
+            var loggedInUser = this.$store.getters.getFirebaseUser.userId
+            var profile = this.$store.getters.getUser(loggedInUser)
+            return profile == undefined ? true : false
+    }
     },
     methods: {
         onClearPersonalInfo(){ 
