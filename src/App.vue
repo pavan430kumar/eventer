@@ -63,7 +63,7 @@ export default {
           { icon: 'lock_open', title: 'Sign In', link: '/signin' }
         ]
       }
-      if (this.isUserLoggedIn) {
+      if (this.isUserLoggedIn && !this.isFirstTimeUser) {
         menuItems = [
           { icon: 'list', title: 'All Events', link: '/events' },
           { icon: 'add', title: 'Create Event', link: '/create' },
@@ -75,6 +75,11 @@ export default {
     isUserLoggedIn() {
       var user = this.$store.getters.getFirebaseUser 
       return user !== null && user !== undefined
+    },
+    isFirstTimeUser() {
+      var loggedInUser = this.$store.getters.getFirebaseUser.userId
+      var profile = this.$store.getters.getUser(loggedInUser)
+      return profile == undefined ? true : false
     }
   },
   methods: {

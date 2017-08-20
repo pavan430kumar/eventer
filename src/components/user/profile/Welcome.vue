@@ -41,9 +41,7 @@ export default {
     computed: {
         userProfile() {
             var loggedInUser = this.$store.getters.getFirebaseUser.userId
-            var test = this.$store.getters.getUser(loggedInUser)
-            console.log(test)
-            return test
+            return this.$store.getters.getUser(loggedInUser)
         }
     }
 }
