@@ -82,9 +82,6 @@
 
 <script>
 export default {
-  created() {
-    this.$store.dispatch('getUserProfile')
-  },
   computed: {
     userProfile() {
       var loggedInUser = this.$store.getters.getFirebaseUser.userId

@@ -22,10 +22,11 @@ let router = new Router({
     },
     {
       path: '/',
+    //  beforeEnter: checkProfileLoaded,
       redirect: '/home',
       meta: {
         requiresAuth: true,
-        requiresProfile : true
+        requiresProfile: true
       }
     },
     {
@@ -38,10 +39,11 @@ let router = new Router({
     },
     {
       path: '/home',
+     // beforeEnter: checkProfileLoaded,
       component: Home,
       meta: {
         requiresAuth: true,
-        requiresProfile : true
+        requiresProfile: true
       }
     },
     {
@@ -49,7 +51,7 @@ let router = new Router({
       component: Create,
       meta: {
         requiresAuth: true,
-        requiresProfile : true
+        requiresProfile: true
       }
     },
     {
@@ -57,7 +59,7 @@ let router = new Router({
       component: Events,
       meta: {
         requiresAuth: true,
-        requiresProfile : true
+        requiresProfile: true
       }
     },
     {
@@ -66,7 +68,7 @@ let router = new Router({
       component: Event,
       meta: {
         requiresAuth: true,
-        requiresProfile : true
+        requiresProfile: true
       }
     },
     {
@@ -74,7 +76,7 @@ let router = new Router({
       component: Profile,
       meta: {
         requiresAuth: true,
-        requiresProfile : true
+        requiresProfile: true
       }
     },
     {
@@ -98,16 +100,54 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
 
+  if(to.fullPath == '/home'){
+  checkProfileLoaded(to, from, next)}
   let currentUser = firebase.auth().currentUser;
   //This will check if he is first time user with no profile created
-  let isFirstTimeUser = store.getters.getUser(currentUser == null ? currentUser : currentUser.uid) == undefined ? true : false
+  // let isFirstTimeUser = store.getters.getUser(currentUser == null ? currentUser : currentUser.uid) == undefined ? true : false
+  let profile = store.getters.getUser(currentUser == null ? currentUser : currentUser.uid)
+  let isFirstTimeUser = profile == undefined ? true : false
   let requiresAuth = to.matched.some(request => request.meta.requiresAuth);
   let requiresProfile = to.matched.some(request => request.meta.requiresProfile);
+
+  console.log('In router')
+  console.log((currentUser == null ? currentUser : currentUser.uid) + ' -Current User')
+  console.log(profile, ' -User Profile Infoo')
+  console.log(isFirstTimeUser + ' -isFirstTimeUser')
+  console.log(requiresProfile + ' -RequireProfile')
+  console.log(to.fullPath + ' -path')
+  console.log(store.state._user, ' -State User Profile')
+  console.log('out of router')
 
   if (requiresAuth && !currentUser) next('/signin')
   else if (currentUser && isFirstTimeUser && requiresProfile) next('/welcome')
   else if (!requiresAuth && currentUser && !isFirstTimeUser) next('/')
   else next()
 })
+
+const checkProfileLoaded = (to, from, next) => {
+ var lenth =  store.state._user
+ console.log(length, ' -state length')
+ function proceed() {
+    if (store.state._user.length != 0) {
+      console.log('-------IN Check--------------')
+      next()
+    }
+  }
+  if (store.state._user.length == 0) { 
+    console.log('-------IN watch--------------')
+    store.watch(
+      (state) => state._user,
+      (value) => {
+        if (value != 0) {
+          console.log('-------Go to Proceed again--------------')
+          proceed()
+        }
+      }
+    )
+  } else {
+    proceed()
+  }
+}
 
 export default router

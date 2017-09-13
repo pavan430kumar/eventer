@@ -17,7 +17,7 @@
       </v-list>
     </v-navigation-drawer>
   
-    <v-toolbar>
+    <v-toolbar fixed>
       <v-toolbar-side-icon @click.stop="sideNav =! sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
       <v-toolbar-title style="cursor: pointer" @click="goToHome">
         <v-icon>event</v-icon>
@@ -78,7 +78,9 @@ export default {
     },
     isFirstTimeUser() {
       var loggedInUser = this.$store.getters.getFirebaseUser.userId
+      console.log(loggedInUser)
       var profile = this.$store.getters.getUser(loggedInUser)
+      console.log(profile)
       return profile == undefined ? true : false
     }
   },

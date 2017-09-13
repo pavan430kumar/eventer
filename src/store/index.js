@@ -16,50 +16,8 @@ export const store = new Vuex.Store({
     ],
     state: {
         _loadEvents: [
-            {
-                imageUrl: 'http://image.myvr.com/36072b4208f38136/f8d8a898d349dbd2/102-1downtown-los-angeles.jpg',
-                id: 3,
-                title: 'New Jersey',
-                location: 'test1',
-                date: '2017-06-05',
-                startTime: '',
-                endTime: '',
-                description: '',
-            }
         ],
         _user: [
-            // {
-            //     userId: 1234,
-            //     firstName: 'Pavan',
-            //     lastName: 'Kumar',
-            //     dob: 'Jun 5th, 1992',
-            //     email: 'eventeradmin@example.com',
-            //     workEmail: '',
-            //     phone: '970-232-4991',
-            //     workPhone: '',
-            //     street: '35 Grimes Rd',
-            //     apt: 'C213',
-            //     city: 'RockyHill',
-            //     state: 'CT',
-            //     zipcode: '06067',
-            //     profilePic: 'https://s-media-cache-ak0.pinimg.com/originals/5e/f4/79/5ef47920fc689db66b4c69be072771b6.jpg'
-            // },
-            // {
-            //     userId: 4321,
-            //     firstName: 'Shrath',
-            //     lastName: 'Chandra',
-            //     dob: 'Oct 21st, 1994',
-            //     email: 'sharath@example.com',
-            //     workEmail: '',
-            //     phone: '829-712-3895',
-            //     workPhone: '',
-            //     street: 'Rezimental Bazar',
-            //     apt: '9-3-761',
-            //     city: 'Secunderabad',
-            //     state: 'TG',
-            //     zipcode: '500025',
-            //     profilePic: ''
-            // }
         ],
         _fireUser: null,
         _isLoading: false,
@@ -179,6 +137,7 @@ export const store = new Vuex.Store({
                 })
         },
         getUserProfile({ commit, state }) {
+            return new Promise((resolve, reject) => {
             const currentUserId = state._fireUser.userId
             firebase.database().ref('users').once('value')
                 .then(
@@ -193,9 +152,14 @@ export const store = new Vuex.Store({
                     if (currentUserProfile !== null) {
                         commit('getUserProfile', { ...currentUserProfile, userId: currentUserId })
                     }
+                    resolve(currentUserProfile);
                 }
                 )
                 .catch(err => { console.log(err) })
+            },
+            error => {
+                reject(error);
+            })
         },
         updateProfile({ commit, state }, payload) {
             const updatedProfile = {
@@ -233,11 +197,12 @@ export const store = new Vuex.Store({
             firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
                 .then(
                 user => {
-                    commit('setIsLoading', false)
                     const newUser = {
                         userId: user.uid
                     }
                     commit('setUser', newUser)
+                    commit('setIsLoading', false)
+                    Router.push('/welcome')
                 }
                 )
                 .catch(
@@ -249,15 +214,25 @@ export const store = new Vuex.Store({
                 )
         },
         signInUser({ commit }, payload) {
+            console.log('----In SignInUser------')
             commit('setIsLoading', true)
             firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
                 .then(
                 user => {
-                    commit('setIsLoading', false)
                     const newUser = {
                         userId: user.uid
                     }
                     commit('setUser', newUser)
+                    store.dispatch('getUserProfile').then(x=> Router.push('/'))
+                    // .then(x => {
+                    //     console.log('In process to dispatch')
+                    //     Router.push('/')
+                    // })
+                    store.dispatch('getEvents')
+                    commit('setIsLoading', false)
+                    console.log('------Before push----------')
+                    // Router.push('/')
+                    console.log('------Out of  SignInUser----------')
                 })
                 .catch(
                 err => {

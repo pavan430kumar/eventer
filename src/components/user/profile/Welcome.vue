@@ -31,9 +31,6 @@
 
 <script>
 export default {
-    created() {
-        this.$store.dispatch('getUserProfile')
-    },
     mounted(){
         if(this.userProfile !== undefined)
         this.$router.push('/profile')

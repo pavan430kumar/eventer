@@ -24,9 +24,9 @@
 
 <script>
 export default {
-  created() {
-    this.$store.dispatch('getEvents')
-  },
+  // created() {
+  //   this.$store.dispatch('getEvents')
+  // },
   computed: {
     myEvents() {
       return this.$store.getters.loadFeaturedEvents
